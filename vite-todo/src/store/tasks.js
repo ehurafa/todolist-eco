@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 
 export const useTaskStore = defineStore("tasks", {
   state: () => {
-    return { tasks: [] }
+    return { tasks: ['foo'] }
   },
   actions: {
     list(tasks) {

@@ -4,7 +4,9 @@
 
 <script>
 export default {
-  name: 'DetailsView'
+  setup() {
+    
+  }
 }
 </script>
 
