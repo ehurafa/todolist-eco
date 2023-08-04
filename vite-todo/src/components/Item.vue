@@ -1,13 +1,14 @@
 <template>
   <div class="item">
-    <button class="icon" @click="onDelete()">
+    <button class="icon" @click="onSelect()">
       <slot name="icon" />
-      <span class="material-symbols-outlined">
+      <span class="material-symbols-outlined" v-if="selected">
+        check_box
+      </span>
+      <span class="material-symbols-outlined" v-else>
         check_box_outline_blank
-        </span>
-        <span class="material-symbols-outlined">
-check_box
-</span>
+      </span>
+        
     </button>
     <div class="title=">Título da task</div>
     <div class="action">
@@ -17,19 +18,40 @@ check_box
 </template>
 
 <script>
+import { onMounted } from 'vue'
+import { useTaskStore } from "../store/tasks"
 export default {
   name: 'Item',
-  setup() {
+  props: {
+    id: String | Number,
+    selected: Boolean
+  },
+  setup({ id, selected },{ emit }) {
+
+    const store = useTaskStore()
+    const item = store.tasks[id]
+      
     const onSelect = () => {
-      console.log('select')
+      console.log('> selected ', selected)
+      const select = !selected 
+      console.log('> select ', select)
+      emit('select', { id, selected: select })
     }
 
     const onDelete = () => {
-      console.log('delete')
+      console.log('delete ', id)
+      emit('deleted', id)
     }
 
+    onMounted(() => {
+      // selectd = item.selected
+    })
+
     return {
-      onDelete
+      selected,
+      onSelect,
+      onDelete,
+      onMounted
     }
   }
 }
